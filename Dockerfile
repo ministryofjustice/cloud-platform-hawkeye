@@ -84,10 +84,12 @@ COPY ./hawkeye /hawkeye
 RUN cd /hawkeye && \
     npm install --production --quiet
 
-# will add org logic here
+ENV PATH=/hawkeye/bin:$PATH
 
+# will add org logic here
+RUN pip3 install pygithub
+COPY get_all_repos.py /hawkeye/
 WORKDIR /target
 
-ENV PATH=/hawkeye/bin:$PATH
-ENTRYPOINT ["hawkeye"]
-CMD ["scan", "/target"]
+ENTRYPOINT ["/hawkeye/get_all_repos.py"]
+CMD [""]
