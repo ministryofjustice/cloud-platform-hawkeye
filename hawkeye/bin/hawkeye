@@ -1,0 +1,13 @@
+#!/usr/bin/env node
+'use strict';
+const logger = new require('../lib/logger')();
+const version = require('../package.json').version;
+logger.log('Welcome to Hawkeye v' + version + '!');
+console.log('');
+
+const program = require('commander');
+program
+  .version(version)
+  .command('scan', 'Runs a scan')
+  .command('modules', 'Lists the currently install modules')
+  .parse(process.argv);
