@@ -92,9 +92,5 @@ scan.start((err, results) => {
     });
   }, err => {
       if(err) { logger.error(err.message); }
-    logger.log('Scan complete');
-    if(total > 0) {
-      process.exit(exitCode);
-    }
   });
 });

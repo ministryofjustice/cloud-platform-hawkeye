@@ -77,6 +77,13 @@ RUN mkdir $OWASP_DEP_FOLDER && cd $OWASP_DEP_FOLDER && \
 
 ENV PATH=$OWASP_DEP_FOLDER/dependency-check/bin:$PATH
 
+RUN pip3 install pygithub
+RUN rpm -U http://opensource.wandisco.com/centos/7/git/x86_64/wandisco-git-release-7-2.noarch.rpm && \
+    yum install -y git
+RUN wget -q https://github.com/github/hub/releases/download/v2.4.0/hub-linux-amd64-2.4.0.tgz && \
+    tar xzf hub-linux*tgz && mv hub-linux*/bin/hub /usr/local/bin/ && rm -fr hub-linux*
+RUN git config --global hub.protocol https
+
 # Install hawkeye
 RUN mkdir -p /hawkeye
 COPY ./hawkeye /hawkeye
@@ -87,9 +94,8 @@ RUN cd /hawkeye && \
 ENV PATH=/hawkeye/bin:$PATH
 
 # will add org logic here
-RUN pip3 install pygithub
+RUN echo "machine github.com" > ~/.netrc
 COPY get_all_repos.py /hawkeye/
-WORKDIR /target
 
+WORKDIR /target
 ENTRYPOINT ["/hawkeye/get_all_repos.py"]
-CMD [""]

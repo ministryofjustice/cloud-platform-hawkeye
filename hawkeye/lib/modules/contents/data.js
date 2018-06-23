@@ -74,16 +74,14 @@ module.exports = [
   },
   {
     code: 13,
-    content: /(AWS[ |\w]+key[ |\w]+[:|=])/i,
+    content: /(aws_access[ |\w]+[:|=])/i,
     caption: 'Potential AWS Key in file',
     level: 'low'
   },
   {
     code: 14,
-    content: /(AWS[ |\w]+secret[ |\w]+[:|=])/i,
+    content: /(aws_secret[ |\w]+[:|=])/i,
     caption: 'Potential AWS Secret in file',
-    level: 'low'
-  },
-
-
+    level: 'critical'
+  }
 ];
