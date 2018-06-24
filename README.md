@@ -5,6 +5,6 @@ This borrows ideas and code from [gitleaks](https://github.com/zricethezav/gitle
 To run, a read-only API key with access to the needed org repos is needed, then
 ```
 $ docker pull razvanmoj/cloud-platform-hawkeye
-$ docker run --rm -v $PWD/target:/target razvanmoj/cloud-platform-hawkeye --token 'aaabbb' --user 'ghusername' --filter 'regexp'
+$ docker run --rm -v $PWD/target:/target razvanmoj/cloud-platform-hawkeye --token 'aaabbb' --user 'ghusername' --filter 'regexp' 2>&1 | tee target/report.txt
 ```
-All the readable org repos will be cloned in `$PWD/target` ; do note that for now the scanner **only checks the HEAD of the master branch**.
+All the readable org repos will be cloned in `$PWD/target` ; do note that for now the scanner **only checks the HEAD of the master branch**. A [sample report](sample-report.txt) is attached.
