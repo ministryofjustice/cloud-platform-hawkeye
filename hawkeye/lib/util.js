@@ -112,8 +112,8 @@ module.exports = {
   },
   readFileSync: function(absolute) {
     const stat = fs.statSync(absolute);
-    if(stat.size > 5000000) {
-      console.warn(('[warn] File which exceeds 5MB limited detected: ' + absolute).yellow);
+    if(stat.size > 10000000) {
+      console.warn(('[warn] File which exceeds 10MB limited detected: ' + absolute).yellow);
       return '';
     }
     const buffer = fs.readFileSync(absolute);
