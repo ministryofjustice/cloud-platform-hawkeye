@@ -21,13 +21,12 @@ RUN cd /tmp && \
     make install && \
     rm -rf /tmp/git-crypt*
 
-ENV NODE_VERSION=8.9.1
-ENV NPM_VERSION=5.5.1
+ENV NPM_VERSION=5.10.0
 
 # Get nodejs repos
 RUN curl --silent --location https://rpm.nodesource.com/setup_8.x | bash -
 
-RUN yum -y install nodejs-$NODE_VERSION && \
+RUN yum -y install nodejs && \
     yum -y clean all
 
 RUN rm -rf /usr/lib/node_modules/npm && \
@@ -86,10 +85,10 @@ RUN git config --global hub.protocol https
 
 # Install hawkeye
 RUN mkdir -p /hawkeye
-COPY ./hawkeye /hawkeye
-
+COPY ./hawkeye/package.json /hawkeye/
 RUN cd /hawkeye && \
     npm install --production --quiet
+COPY ./hawkeye /hawkeye
 
 ENV PATH=/hawkeye/bin:$PATH
 

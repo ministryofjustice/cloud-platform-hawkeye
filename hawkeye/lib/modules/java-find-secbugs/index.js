@@ -112,22 +112,23 @@ module.exports = function FindSecBugs(options) {
       }
 
       const parser = new xml2js.Parser();
-      const report = fileManager.readFileSync('findSecBugsReport.xml');
+      fileManager.readFileSync('findSecBugsReport.xml', 'utf8', (err, report) => {
+        if(err) { options.logger.error(`read FindSecBugs report failed`); return done(); }
+        parser.parseString(report, (err, findSecBugsResult) => {
+          if(err) { options.logger.error(`parse FindSecBugs report failed`); return done(); }
+          const bugs = util.defaultValue(findSecBugsResult.BugCollection.BugInstance, []);
 
-      parser.parseString(report, (err, findSecBugsResult) => {
+          bugs.forEach(bug => {
+            const item = {
+              code: bug.$.type,
+              offender: bug.Method[0].Message[0],
+              description: bug.LongMessage[0],
+              mitigation: getMitigationMessage(bug.SourceLine)
+            };
 
-        const bugs = util.defaultValue(findSecBugsResult.BugCollection.BugInstance, []);
-
-        bugs.forEach(bug => {
-  			  const item = {
-            code: bug.$.type,
-            offender: bug.Method[0].Message[0],
-            description: bug.LongMessage[0],
-            mitigation: getMitigationMessage(bug.SourceLine)
-  	      };
-
-          const level = getSeverity(bug.$.priority);
-  	      results[level](item);
+            const level = getSeverity(bug.$.priority);
+            results[level](item);
+          });
         });
       });
 

@@ -14,7 +14,7 @@ module.exports = function Rc(options) {
   };
 
   const isValidLimit = (limit) => Number.isInteger(limit) && limit > 0;
-  const defaultFileLimit = 1000;
+  const defaultFileLimit = 10000;
 
   let self = {
     exclude: [
